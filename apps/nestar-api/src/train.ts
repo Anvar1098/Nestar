@@ -14,7 +14,7 @@ function reduceNestedArray(arr: (number | (number | any[])[])[]): number {
             sum += reduceNestedArray(currentItem);  // Recursively sum the nested array
         }
     }
-
+    console.log('sum:', sum);
     return sum;
 }
 
