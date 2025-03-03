@@ -10,7 +10,7 @@ import { DatabaseModule } from './database/database.module';
 
 @Module({    // Module decorator orqali boyitilmoqda (ozi bilan MetaData lani olib keladi)
   imports: [  // Natijada Module Ingridientga aylandi va markaziy bo'gichga aylandi (Demak Module orqali quriladi)
-    ConfigModule.forRoot(), GraphQLModule.forRoot({
+    ConfigModule.forRoot(), GraphQLModule.forRoot({   // Environmental Variable
       driver: ApolloDriver,
       playground: true,
       uploads: false,
