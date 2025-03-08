@@ -23,15 +23,25 @@
 
 //------------------------------------------------------------------------------------------------------------------
 
-function printNumbers(): void {
-    let num: number = 1;
-    const interval: NodeJS.Timeout = setInterval(() => {
-      console.log(num);
-      if (num === 5) {
-        clearInterval(interval);
-      }
-      num++;
-    }, 1000);
-  }
+// function printNumbers(): void {
+//     let num: number = 1;
+//     const interval: NodeJS.Timeout = setInterval(() => {
+//       console.log(num);
+//       if (num === 5) {
+//         clearInterval(interval);
+//       }
+//       num++;
+//     }, 1000);
+//   }
   
-  printNumbers();
+//   printNumbers();
+
+//------------------------------------------------------------------------------------------------------------------------
+
+function stringToKebab(str: string): string {
+  return str
+      .toLowerCase()         // Convert to lowercase
+      .replace(/\s+/g, '-'); // Replace spaces with hyphens
+}
+
+console.log(stringToKebab("I love Kebab")); 
