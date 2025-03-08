@@ -10,7 +10,8 @@ import { DatabaseModule } from './database/database.module';
 
 @Module({    // Module decorator orqali boyitilmoqda (ozi bilan MetaData lani olib keladi)
   imports: [  // Natijada Module Ingridientga aylandi va markaziy bo'gichga aylandi (Demak Module orqali quriladi)
-    ConfigModule.forRoot(), GraphQLModule.forRoot({   // Environmental Variable
+    ConfigModule.forRoot(),    // Environmental Variable
+    GraphQLModule.forRoot({  
       driver: ApolloDriver,
       playground: true,
       uploads: false,
@@ -19,7 +20,7 @@ import { DatabaseModule } from './database/database.module';
     ComponentsModule,
     DatabaseModule, 
   ],
-  controllers: [AppController],                   // Ingridient
+  controllers: [AppController],                   // Ingridient  (Reat API ga ishliydi)
   providers: [AppService, AppResolver],           // Ingridient
 })
 export class AppModule {}
