@@ -21,7 +21,7 @@ export class MemberInput {
     memberPhone: string;
 
     @IsOptional()
-    @Field(() => MemberType, { nullable: true })
+    @Field(() => MemberType, { nullable: true })  // optinonal digani
     memberType?: MemberType;
 
     @IsOptional()
@@ -33,8 +33,8 @@ export class MemberInput {
 export class LoginInput {
     @IsNotEmpty()
     @Length(3, 12)
-    @Field(() => String)
-    memberNick: string;
+    @Field(() => String)     // GraphQL
+    memberNick: string;      // TypeScrpyt
 
     @IsNotEmpty()
     @Length(5, 12)

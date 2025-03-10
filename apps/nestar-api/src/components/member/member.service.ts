@@ -19,16 +19,16 @@ export class MemberService {
             // AUTH via Token
             return result;
         } catch (err) {
-            console.log('Error, Service.model:', err);
-            throw new BadRequestException(err);
+            console.log('Error, Service.model:', err.message);
+            throw new BadRequestException(Message.USED_MEMBER_NICK_OR_PHONE);
         }
     }
 
     public async login(input: LoginInput): Promise<Member> {
-        const { memberNick, memberPassword } = input;
+        const { memberNick, memberPassword } = input;                               // destruction
         const response: Member | null = await this.memberModel                     // Null added
             .findOne({ memberNick: memberNick })
-            .select('+memberPassword')
+            .select('+memberPassword')        
             .exec();
 
         if (!response || response.memberStatus === MemberStatus.DELETE) {

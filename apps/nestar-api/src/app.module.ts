@@ -7,6 +7,8 @@ import { ApolloDriver} from "@nestjs/apollo";
 import { AppResolver } from './app.resolver';
 import { ComponentsModule } from './components/components.module';
 import { DatabaseModule } from './database/database.module';
+import { error } from 'console';
+import { T } from './libs/types/common';
 
 @Module({    // Module decorator orqali boyitilmoqda (ozi bilan MetaData lani olib keladi)
   imports: [  // Natijada Module Ingridientga aylandi va markaziy bo'gichga aylandi (Demak Module orqali quriladi)
@@ -16,6 +18,15 @@ import { DatabaseModule } from './database/database.module';
       playground: true,
       uploads: false,
       autoSchemaFile: true,    // Backend nima info berishini frontendga korsatishi!
+      formatError: (error: T) => {
+        const graphQLFormattedError = {
+          code: error?.extensions.code,
+          message: 
+            error?.extensions?.exception?.response?.message || error?.extensions?.response?.message || error?.message,
+        };
+        console.log('GRAPHQL GLOBAL ERR:', graphQLFormattedError);
+        return graphQLFormattedError;
+      }, 
     }), 
     ComponentsModule,
     DatabaseModule, 
