@@ -38,10 +38,28 @@
 
 //------------------------------------------------------------------------------------------------------------------------
 
-function stringToKebab(str: string): string {
-  return str
-      .toLowerCase()         // Convert to lowercase
-      .replace(/\s+/g, '-'); // Replace spaces with hyphens
+// function stringToKebab(str: string): string {
+//   return str
+//       .toLowerCase()         // Convert to lowercase
+//       .replace(/\s+/g, '-'); // Replace spaces with hyphens
+// }
+
+// console.log(stringToKebab("I love Kebab")); 
+
+//-----------------------------------------------------------------------------------------------------------------------
+
+function reverseInteger(num: number): number {
+  let strNum: string = num.toString(); // Convert number to string
+  let reversedStr: string = ''; 
+
+  // Loop through the string in reverse order
+  for (let i = strNum.length - 1; i >= 0; i--) {
+    reversedStr += strNum[i];
+  }
+
+  return parseInt(reversedStr) * Math.sign(num); // Convert back to number & keep sign
 }
 
-console.log(stringToKebab("I love Kebab")); 
+console.log(reverseInteger(123456789)); 
+console.log(reverseInteger(100));       
+console.log(reverseInteger(-9876));    
