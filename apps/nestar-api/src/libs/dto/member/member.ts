@@ -4,7 +4,7 @@ import { MemberAuthType, MemberStatus, MemberType } from "../../enums/member.enu
 
 
 
-@ObjectType()
+@ObjectType()  // Backenddan chiqish datalari   |  @InputType => FrontEnddan kirish datasi
 export class Member {
     @Field(() => String)
     _id: ObjectId;

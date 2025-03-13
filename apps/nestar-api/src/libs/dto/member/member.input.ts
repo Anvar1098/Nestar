@@ -29,7 +29,7 @@ export class MemberInput {
     MemberAuthType?: MemberAuthType;
 }
 
-@InputType()
+@InputType()  // Asosan Frontenddan kirish datalari   |   // Backenddan chiqish datalari => @ObjectType
 export class LoginInput {
     @IsNotEmpty()
     @Length(3, 12)

@@ -36,3 +36,9 @@ export class LoggingInterceptor implements NestInterceptor {
         return JSON.stringify(context).slice(0, 75);
     }
 }
+
+// Sucess req boganda Interceptor ham req ham res log boladi!
+
+// 1 step =>  PIPE => Interceptor (req) & GUARD  ( Shu caseda agar Pipe validationda muammo bosa step 3 ga otadi avtomatik!)
+// 2 step => API
+// 3 step => GRAPHQL Error | Interceptor (res)

@@ -18,16 +18,16 @@ import { T } from './libs/types/common';
       playground: true,
       uploads: false,
       autoSchemaFile: true,    // Backend nima info berishini frontendga korsatishi!
-      formatError: (error: T) => {
+      formatError: (error: T) => {        //  T => TypeScriptda object type yuk!
         const graphQLFormattedError = {
-          code: error?.extensions.code,
+          code: error?.extensions.code,  // ich ichiga kirishidan Object typeligini koryapmiz!
           message: 
             error?.extensions?.exception?.response?.message || error?.extensions?.response?.message || error?.message,
         };
         console.log('GRAPHQL GLOBAL ERR:', graphQLFormattedError);
-        return graphQLFormattedError;
+        return graphQLFormattedError;     // res
       }, 
-    }), 
+    }), // GraphQL API:
     ComponentsModule,
     DatabaseModule, 
   ],
@@ -45,3 +45,4 @@ export class AppModule {}
 // ConfigModule.forRoot() => ildiz otishi
 // Rest Api & GraphQL API => HTTP ustiga qurilgan
 // GraphQL API => bir request orqali hamma kerakli infoni yigib kelish mumkin backenddan!
+// formatError => vazifasi Errorlarni togri formatlash!
