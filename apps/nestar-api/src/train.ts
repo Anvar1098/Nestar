@@ -48,18 +48,44 @@
 
 //-----------------------------------------------------------------------------------------------------------------------
 
-function reverseInteger(num: number): number {
-  let strNum: string = num.toString(); // Convert number to string
-  let reversedStr: string = ''; 
+// function reverseInteger(num: number): number {
+//   let strNum: string = num.toString(); // Convert number to string
+//   let reversedStr: string = ''; 
 
-  // Loop through the string in reverse order
-  for (let i = strNum.length - 1; i >= 0; i--) {
-    reversedStr += strNum[i];
-  }
+//   // Loop through the string in reverse order
+//   for (let i = strNum.length - 1; i >= 0; i--) {
+//     reversedStr += strNum[i];
+//   }
 
-  return parseInt(reversedStr) * Math.sign(num); // Convert back to number & keep sign
+//   return parseInt(reversedStr) * Math.sign(num); // Convert back to number & keep sign
+// }
+
+// console.log(reverseInteger(123456789)); 
+// console.log(reverseInteger(100));       
+// console.log(reverseInteger(-9876));
+
+//----------------------------------------------------------------------------------------------------------------
+
+// Function to rotate array based on the given index
+function rotateArray<T>(arr: T[], index: number): T[] {
+  // Handle edge cases
+  if (arr.length === 0 || index <= 0) return arr;
+
+  // Ensure the index is within the array bounds
+  const validIndex = index % arr.length;
+
+  // Slice the array into two parts and concatenate
+  const firstPart = arr.slice(0, validIndex);
+  const secondPart = arr.slice(validIndex);
+
+  return secondPart.concat(firstPart);
 }
 
-console.log(reverseInteger(123456789)); 
-console.log(reverseInteger(100));       
-console.log(reverseInteger(-9876));    
+
+const result = rotateArray([1, 2, 3, 4, 5, 6], 3);
+console.log(rotateArray([], 3));               
+console.log(rotateArray([1], 5));              
+console.log(rotateArray([1, 2, 3], 0));        
+console.log(rotateArray([1, 2, 3, 4], 5));     
+console.log(rotateArray(['a', 'b', 'c'], 2)); 
+console.log(result); 
