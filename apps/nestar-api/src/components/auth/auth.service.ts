@@ -19,8 +19,9 @@ export class AuthService {
         return await bcrypt.compare(password, hashedPassword);
     }
 
+    // MEMBER => TOKEN
     public async createToken(member: Member): Promise<string> {
-        const payload: T = {};
+        const payload: T = {};  // payload => Memberdan keladigan data | Payload => demak Memberdan qurilmoqda va payloadga malumot yuklanadi Memberniki
 
         Object.keys(member['_doc'] ? member['_doc'] : member).map((ele) => {
             payload[`${ele}`] = member[`${ele}`];
@@ -30,6 +31,7 @@ export class AuthService {
         return await this.jwtService.signAsync(payload);
     }
 
+    // TOKEN => MEMBER
     public async verifyToken(token: string): Promise<Member> {
         const member = await this.jwtService.verifyAsync(token);
         member._id = shapeIntoMongoObjectid(member._id);

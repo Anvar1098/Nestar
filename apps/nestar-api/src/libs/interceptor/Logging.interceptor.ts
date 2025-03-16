@@ -42,3 +42,21 @@ export class LoggingInterceptor implements NestInterceptor {
 // 1 step =>  PIPE => Interceptor (req) & GUARD  ( Shu caseda agar Pipe validationda muammo bosa step 3 ga otadi avtomatik!)
 // 2 step => API
 // 3 step => GRAPHQL Error | Interceptor (res)
+
+// Va Pipe Guardlar ishga tushadi req API ga kirib kelishdan oldin!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

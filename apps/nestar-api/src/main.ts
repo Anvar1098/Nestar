@@ -8,7 +8,7 @@ import { LoggingInterceptor } from './libs/interceptor/Logging.interceptor';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);     // App =>    Express + NestJs
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(new LoggingInterceptor());  
   await app.listen(process.env.PORT_API ?? 3000);
 }
 bootstrap();
@@ -19,13 +19,13 @@ bootstrap();
 // app.controllerda masalan standard mantiqla yozamiz => server is running and etc..
 // Modelar ni farqi serverlar soni bilan olchanadi!
 // Standard Mode => 
-// Monorepo Mode => Kop repository lik boladi (Yagona GitHub)
+// Monorepo Mode => Kop repository lik boladi (Yagona GitHub) => multi server
 // Batch server => masalan kunni malum bir qismida malum vazifani bajarib chikib ketadi (bunga tashqaridan request kelmaydi)
 // Batch server => aytilgan paytda ishga tushib , vazifasini yakunlaydi
 // NestJs => server side application framework va ingridientlari orqali tashkilashtirdi, AOP asosi bu => module!
 // GraphQl API da endpoint bolmaydi va mutation va query orqali method nomi bilan boglanadi!
 // Demak GraphQL da automatic error handling borligi sababli try catch bolmaydi!  (App.module ichida formatError bor)!
-
+// MVC ni (API) ishga tushirishdan oldin  modullarga wrap qildik, shuni uchun modular tizim tez ishlayid => AOP muhim konsepsiyasi!
 
 
 
