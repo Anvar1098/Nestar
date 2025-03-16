@@ -67,25 +67,44 @@
 //----------------------------------------------------------------------------------------------------------------
 
 // Function to rotate array based on the given index
-function rotateArray<T>(arr: T[], index: number): T[] {
-  // Handle edge cases
-  if (arr.length === 0 || index <= 0) return arr;
+// function rotateArray<T>(arr: T[], index: number): T[] {
+//   // Handle edge cases
+//   if (arr.length === 0 || index <= 0) return arr;
 
-  // Ensure the index is within the array bounds
-  const validIndex = index % arr.length;
+//   // Ensure the index is within the array bounds
+//   const validIndex = index % arr.length;
 
-  // Slice the array into two parts and concatenate
-  const firstPart = arr.slice(0, validIndex);
-  const secondPart = arr.slice(validIndex);
+//   // Slice the array into two parts and concatenate
+//   const firstPart = arr.slice(0, validIndex);
+//   const secondPart = arr.slice(validIndex);
 
-  return secondPart.concat(firstPart);
+//   return secondPart.concat(firstPart);
+// }
+
+
+// const result = rotateArray([1, 2, 3, 4, 5, 6], 3);
+// console.log(rotateArray([], 3));               
+// console.log(rotateArray([1], 5));              
+// console.log(rotateArray([1, 2, 3], 0));        
+// console.log(rotateArray([1, 2, 3, 4], 5));     
+// console.log(rotateArray(['a', 'b', 'c'], 2)); 
+// console.log(result); 
+
+//--------------------------------------------------------------------------------------------------------------------
+
+function areParenthesesBalanced(str: string): boolean {
+  let balance = 0;
+
+  for (const char of str) {
+    if (char === "(") balance++;
+    else if (char === ")") balance--;
+
+    // If closing parentheses come before opening ones
+    if (balance < 0) return false;
+  }
+
+  return balance === 0;
 }
 
-
-const result = rotateArray([1, 2, 3, 4, 5, 6], 3);
-console.log(rotateArray([], 3));               
-console.log(rotateArray([1], 5));              
-console.log(rotateArray([1, 2, 3], 0));        
-console.log(rotateArray([1, 2, 3, 4], 5));     
-console.log(rotateArray(['a', 'b', 'c'], 2)); 
-console.log(result); 
+console.log(areParenthesesBalanced("string()inside(parentheses)count()balanced")); 
+console.log(areParenthesesBalanced("(()))(")); 
