@@ -17,7 +17,7 @@ export class MemberService {
     constructor(@InjectModel('Member') private readonly memberModel: Model<Member>,
         private authService: AuthService,
         private viewService: ViewService,
-    ) { }
+    ) {}
 
     public async signup(input: MemberInput): Promise<Member> {
         // Hashing password
@@ -62,8 +62,8 @@ export class MemberService {
                     _id: memberId,
                     memberStatus: MemberStatus.ACTIVE,
                 },
-                input,
-                { new: true },
+                input,             // Filter & Update & Option
+                { new: true },   // yangiliydi
             )
             .exec();
 
@@ -87,12 +87,10 @@ export class MemberService {
             //record View
             const viewInput = { memberId: memberId, viewRefId: targetId, viewGroup: ViewGroup.MEMBER }
             const newView = await this.viewService.recordView(viewInput);
-            if (newView) {
+            if (newView) {   
                 await this.memberModel.findOneAndUpdate(search, { $inc: { memberViews: 1 } }, { new: true }).exec();
                 targetMember.memberViews++;
             }
-            // Increase memberViews
-
         }
 
         return targetMember;

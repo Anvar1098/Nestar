@@ -14,7 +14,7 @@ import { T } from './libs/types/common';
   imports: [  // Natijada Module Ingridientga aylandi va markaziy bo'gichga aylandi (Demak Module orqali quriladi)
     ConfigModule.forRoot(),    // Environmental Variable
     GraphQLModule.forRoot({  
-      driver: ApolloDriver,
+      driver: ApolloDriver,           // GraphQL Engine
       playground: true,
       uploads: false,
       autoSchemaFile: true,    // Backend nima info berishini frontendga korsatishi!
