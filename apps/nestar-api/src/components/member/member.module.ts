@@ -16,6 +16,7 @@ import { ViewModule } from '../view/view.module';
     AuthModule,
     ViewModule
   ], // MemberSchema qurilmoqda
-  providers: [MemberResolver, MemberService]
+  providers: [MemberResolver, MemberService],
+  exports: [MemberService]
 })
 export class MemberModule {}

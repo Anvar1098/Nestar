@@ -92,19 +92,29 @@
 
 //--------------------------------------------------------------------------------------------------------------------
 
-function areParenthesesBalanced(str: string): boolean {
-  let balance = 0;
+// function areParenthesesBalanced(str: string): boolean {
+//   let balance = 0;
 
-  for (const char of str) {
-    if (char === "(") balance++;
-    else if (char === ")") balance--;
+//   for (const char of str) {
+//     if (char === "(") balance++;
+//     else if (char === ")") balance--;
 
-    // If closing parentheses come before opening ones
-    if (balance < 0) return false;
-  }
+//     // If closing parentheses come before opening ones
+//     if (balance < 0) return false;
+//   }
 
-  return balance === 0;
+//   return balance === 0;
+// }
+
+// console.log(areParenthesesBalanced("string()inside(parentheses)count()balanced")); 
+// console.log(areParenthesesBalanced("(()))("));
+
+//------------------------------------------------------------------------------------------------------------------------
+
+function areArraysEqual(arr1: number[], arr2: number[]): boolean {
+  return arr1.sort().toString() === arr2.sort().toString();
 }
 
-console.log(areParenthesesBalanced("string()inside(parentheses)count()balanced")); 
-console.log(areParenthesesBalanced("(()))(")); 
+console.log(areArraysEqual([1, 2, 3], [3, 1, 2]));
+console.log(areArraysEqual([1, 2, 3], [3, 1, 2, 1]));
+console.log(areArraysEqual([1, 2, 3], [4, 1, 2]));  

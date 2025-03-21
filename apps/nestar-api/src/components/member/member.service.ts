@@ -7,7 +7,7 @@ import { MemberStatus, MemberType } from '../../libs/enums/member.enum';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { AuthService } from '../auth/auth.service';
 import { MemberUpdate } from '../../libs/dto/member/member.update';
-import { T } from '../../libs/types/common';
+import { StatisticModifier, T } from '../../libs/types/common';
 import { ViewService } from '../view/view.service';
 import { ViewGroup } from '../../libs/enums/view.enum';
 
@@ -17,7 +17,7 @@ export class MemberService {
     constructor(@InjectModel('Member') private readonly memberModel: Model<Member>,
         private authService: AuthService,
         private viewService: ViewService,
-    ) {}
+    ) { }
 
     public async signup(input: MemberInput): Promise<Member> {
         // Hashing password
@@ -87,7 +87,7 @@ export class MemberService {
             //record View
             const viewInput = { memberId: memberId, viewRefId: targetId, viewGroup: ViewGroup.MEMBER }
             const newView = await this.viewService.recordView(viewInput);
-            if (newView) {   
+            if (newView) {
                 await this.memberModel.findOneAndUpdate(search, { $inc: { memberViews: 1 } }, { new: true }).exec();
                 targetMember.memberViews++;
             }
@@ -126,8 +126,8 @@ export class MemberService {
         const match: T = {};
         const sort: T = { [input?.sort ?? 'createdAt']: input?.direction ?? Direction.DESC };
 
-        if(memberStatus) match.memberStatus = memberStatus;
-        if(memberType) match.memberType = memberType;
+        if (memberStatus) match.memberStatus = memberStatus;
+        if (memberType) match.memberType = memberType;
         if (text) match.memberNick = { $regex: new RegExp(text, 'i') };
         console.log('match:', match);
 
@@ -149,8 +149,21 @@ export class MemberService {
     }
 
     public async updateMemberByAdmin(input: MemberUpdate): Promise<Member> {
-        const result: Member | null = await this.memberModel.findOneAndUpdate({ _id: input._id }, input, { new: true}).exec();
-        if(!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
+        const result: Member | null = await this.memberModel.findOneAndUpdate({ _id: input._id }, input, { new: true }).exec();
+        if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
         return result;
+    }
+
+    public async memberStatsEditor(input: StatisticModifier): Promise<Member | null> {
+        console.log('Done!');
+        const { _id, targetKey, modifier } = input;
+        return await this.memberModel
+            .findOneAndUpdate(
+                _id,
+                {
+                    $inc: { [targetKey]: modifier },
+                },
+                { new: true })
+            .exec();
     }
 }
