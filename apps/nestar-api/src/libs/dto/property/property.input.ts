@@ -115,7 +115,7 @@ class PISearch {
 
    @IsOptional()
    @Field(() => [Int],  { nullable: true})
-   roomList?: Number[];
+   roomsList?: Number[];
 
    @IsOptional()
    @Field(() => [Int],  { nullable: true})

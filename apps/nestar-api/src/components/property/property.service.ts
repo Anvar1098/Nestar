@@ -72,6 +72,7 @@ export class PropertyService {
 
     public async updateProperty(memberId: ObjectId, input: PropertyUpdate): Promise<Property> {
         let { propertyStatus, soldAt, deletedAt } = input;
+
         const search: T = {
             _id: input._id,
             memberId: memberId,
@@ -79,13 +80,9 @@ export class PropertyService {
         };
 
         if (propertyStatus === PropertyStatus.SOLD) soldAt = moment().toDate();
-        else if (propertyStatus === PropertyStatus.DELETE) deletedAt = moment().toDate();
 
-        const result = await this.propertyModel
-            .findOneAndUpdate(search, input, {
-                new: true,
-            })
-            .exec();
+        const result = await this.propertyModel.findOneAndUpdate(search, input, { new: true }).exec();
+
         if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
 
         if (soldAt || deletedAt) {
@@ -114,16 +111,16 @@ export class PropertyService {
                         list: [
                             { $skip: (input.page - 1) * input.limit },
                             { $limit: input.limit },
-                            // meLiked
+                            //meliked
                             lookupMember,
-                            { $unwind: '$memberData' },
+                            { $unwind: '$memberData' }, //[memberData] => memberData
                         ],
                         metaCounter: [{ $count: 'total' }],
                     },
                 },
             ])
             .exec();
-        if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
+        if (!result) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
         return result[0];
     }
@@ -132,7 +129,7 @@ export class PropertyService {
         const {
             memberId,
             locationList,
-            roomList,
+            roomsList,
             bedsList,
             typeList,
             periodsRange,
@@ -141,11 +138,12 @@ export class PropertyService {
             options,
             text,
         } = input.search;
+
         if (memberId) match.memberId = shapeIntoMongoObjectid(memberId);
         if (locationList) match.propertyLocation = { $in: locationList };
-        if (roomList) match.propertyRooms = { $in: roomList };
+        if (roomsList) match.propertyRooms = { $in: roomsList };
         if (bedsList) match.propertyBeds = { $in: bedsList };
-        if (typeList) match.PropertyType = { $in: typeList };
+        if (typeList) match.propertyType = { $in: typeList };
 
         if (pricesRange) match.propertyPrice = { $gte: pricesRange.start, $lte: pricesRange.end };
         if (periodsRange) match.createdAt = { $gte: periodsRange.start, $lte: periodsRange.end };
