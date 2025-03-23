@@ -10,7 +10,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { MemberType } from '../../libs/enums/member.enum';
 import { MemberUpdate } from '../../libs/dto/member/member.update';
-import { getSerialForImage, shapeIntoMongoObjectid, validMimeTypes } from '../../libs/config';
+import { getSerialForImage, shapeIntoMongoObjectId, validMimeTypes } from '../../libs/config';
 import { WithoutGuard } from '../auth/guards/without.guard';
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
 import { createWriteStream } from 'fs';
@@ -69,7 +69,7 @@ export class MemberResolver {
         @AuthMember('_id') memberId: ObjectId
     ): Promise<Member> {
         console.log('Query: getMember');
-        const targetID = shapeIntoMongoObjectid(input);         // string => ObjectID ga change
+        const targetID = shapeIntoMongoObjectId(input);         // string => ObjectID ga change
         return await this.memberService.getMember(memberId, targetID);
     }
 

@@ -111,10 +111,31 @@
 
 //------------------------------------------------------------------------------------------------------------------------
 
-function areArraysEqual(arr1: number[], arr2: number[]): boolean {
-  return arr1.sort().toString() === arr2.sort().toString();
+// function areArraysEqual(arr1: number[], arr2: number[]): boolean {
+//   return arr1.sort().toString() === arr2.sort().toString();
+// }
+
+// console.log(areArraysEqual([1, 2, 3], [3, 1, 2]));
+// console.log(areArraysEqual([1, 2, 3], [3, 1, 2, 1]));
+// console.log(areArraysEqual([1, 2, 3], [4, 1, 2]));  
+
+//---------------------------------------------------------------------------------------------------------------------------
+
+function findDuplicates(arr: number[]): number[] {
+  const counts: Record<number, number> = {};
+  const duplicates: Set<number> = new Set();
+
+  for (const num of arr) {
+    counts[num] = (counts[num] || 0) + 1;
+    if (counts[num] === 2) {
+      duplicates.add(num);
+    }
+  }
+
+  return Array.from(duplicates);
 }
 
-console.log(areArraysEqual([1, 2, 3], [3, 1, 2]));
-console.log(areArraysEqual([1, 2, 3], [3, 1, 2, 1]));
-console.log(areArraysEqual([1, 2, 3], [4, 1, 2]));  
+
+console.log(findDuplicates([1, 2, 3, 4, 5, 4, 3, 4])); 
+console.log(findDuplicates([7, 8, 8, 9, 7, 7]));       
+console.log(findDuplicates([1, 2, 3, 4, 5]));        
