@@ -54,7 +54,7 @@ export class PropertyService {
                 targetProperty.propertyViews++
             }
         }
-        targetProperty.memberData = await this.memberService.getMember(targetProperty.memberId, targetProperty.memberId);  // memberId
+        targetProperty.memberData = await this.memberService.getMember(null, targetProperty.memberId);  // memberId
         return targetProperty;
     }
 
