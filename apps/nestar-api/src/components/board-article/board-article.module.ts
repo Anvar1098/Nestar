@@ -22,4 +22,4 @@ import { ViewModule } from '../view/view.module';
     providers: [BoardArticleResolver, BoardArticleService],
     exports: [BoardArticleService],
 })
-export class BoardArticleModule { }
+export class BoardArticleModule {}

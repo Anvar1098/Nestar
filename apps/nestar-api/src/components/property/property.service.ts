@@ -59,16 +59,6 @@ export class PropertyService {
     }
 
 
-    public async propertyStatsEditor(input: StatisticModifier): Promise<Property | null> {
-        const { _id, targetKey, modifier } = input;
-        return await this.propertyModel
-            .findByIdAndUpdate(
-                _id,
-                { $inc: { [targetKey]: modifier } },
-                { new: true })
-            .exec();
-    }
-
     public async updateProperty(memberId: ObjectId, input: PropertyUpdate): Promise<Property> {
         let { propertyStatus, soldAt, deletedAt } = input;
 
@@ -251,4 +241,13 @@ export class PropertyService {
         return result;
     }
 
+    public async propertyStatsEditor(input: StatisticModifier): Promise<Property | null> {
+        const { _id, targetKey, modifier } = input;
+        return await this.propertyModel
+            .findByIdAndUpdate(
+                _id,
+                { $inc: { [targetKey]: modifier } },
+                { new: true })
+            .exec();
+    }
 }
