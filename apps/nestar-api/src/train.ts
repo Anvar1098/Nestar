@@ -121,21 +121,43 @@
 
 //---------------------------------------------------------------------------------------------------------------------------
 
-function findDuplicates(arr: number[]): number[] {
-  const counts: Record<number, number> = {};
-  const duplicates: Set<number> = new Set();
+// function findDuplicates(arr: number[]): number[] {
+//   const counts: Record<number, number> = {};
+//   const duplicates: Set<number> = new Set();
 
-  for (const num of arr) {
-    counts[num] = (counts[num] || 0) + 1;
-    if (counts[num] === 2) {
-      duplicates.add(num);
-    }
+//   for (const num of arr) {
+//     counts[num] = (counts[num] || 0) + 1;
+//     if (counts[num] === 2) {
+//       duplicates.add(num);
+//     }
+//   }
+
+//   return Array.from(duplicates);
+// }
+
+
+// console.log(findDuplicates([1, 2, 3, 4, 5, 4, 3, 4])); 
+// console.log(findDuplicates([7, 8, 8, 9, 7, 7]));       
+// console.log(findDuplicates([1, 2, 3, 4, 5]));        
+
+//--------------------------------------------------------------------------------------------------------------
+
+function countNumberAndLetters(str: string): { number: number; letter: number } {
+  let result = { number: 0, letter: 0 };
+
+  for (let i = 0; i < str.length; i++) {
+      let char = str[i];
+
+      if (char >= '0' && char <= '9') {
+          result.number++;
+      } else if ((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')) {
+          result.letter++;
+      }
   }
 
-  return Array.from(duplicates);
+  return result;
 }
 
 
-console.log(findDuplicates([1, 2, 3, 4, 5, 4, 3, 4])); 
-console.log(findDuplicates([7, 8, 8, 9, 7, 7]));       
-console.log(findDuplicates([1, 2, 3, 4, 5]));        
+console.log(countNumberAndLetters("string152%\¥")); 
+

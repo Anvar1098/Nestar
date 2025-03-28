@@ -95,6 +95,6 @@ export class BoardArticleResolver {
     ): Promise<BoardArticle> {
         console.log('Mutation: removeBoardArticleByAdmin');
         const articleId = shapeIntoMongoObjectId(input);
-        return await this.boardArticleService.updateBoardArticleByAdmin(articleId);
+        return await this.boardArticleService.removeBoardArticleByAdmin(articleId);
     }
 }

@@ -84,7 +84,7 @@ export class BoardArticleService {
 
     public async getBoardArticles(memberId: ObjectId, input: BoardArticlesInquiry): Promise<BoardArticles> {
         const { articleCategory, text } = input.search;
-        const match: T = { BoardArticleStatus: BoardArticleStatus.ACTIVE };
+        const match: T = { articleStatus: BoardArticleStatus.ACTIVE };
         const sort: T = { [input?.sort ?? 'createdAt']: input?.direction ?? Direction.DESC };
         console.log(sort);
         if (articleCategory) match.articleCategory = articleCategory;
@@ -182,7 +182,7 @@ export class BoardArticleService {
     public async boardArticleStatsEditor(input: StatisticModifier): Promise<BoardArticle | null> {
         const { _id, targetKey, modifier } = input;
         return await this.boardArticleModel
-            .findOneAndUpdate(
+            .findByIdAndUpdate(
                 _id,
                 {
                     $inc: { [targetKey]: modifier },
