@@ -11,7 +11,8 @@ import { LikeModule } from '../like/like.module';
   imports: [
     MongooseModule.forFeature([
       { 
-        name: 'Member', schema: MemberSchema 
+        name: 'Member', 
+        schema: MemberSchema 
       },
     ]), 
     AuthModule,
