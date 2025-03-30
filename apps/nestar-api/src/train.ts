@@ -142,22 +142,41 @@
 
 //--------------------------------------------------------------------------------------------------------------
 
-function countNumberAndLetters(str: string): { number: number; letter: number } {
-  let result = { number: 0, letter: 0 };
+// function countNumberAndLetters(str: string): { number: number; letter: number } {
+//   let result = { number: 0, letter: 0 };
 
-  for (let i = 0; i < str.length; i++) {
-      let char = str[i];
+//   for (let i = 0; i < str.length; i++) {
+//       let char = str[i];
 
-      if (char >= '0' && char <= '9') {
-          result.number++;
-      } else if ((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')) {
-          result.letter++;
-      }
-  }
+//       if (char >= '0' && char <= '9') {
+//           result.number++;
+//       } else if ((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')) {
+//           result.letter++;
+//       }
+//   }
 
-  return result;
+//   return result;
+// }
+
+
+// console.log(countNumberAndLetters("string152%\¥"));
+
+//--------------------------------------------------------------------------------------------------------
+
+function singleNumber(nums: number[]): number {
+    let freq: Record<number, number> = {}; // Object to store frequency
+
+    for (let num of nums) {
+        freq[num] = (freq[num] || 0) + 1; // Count occurrences
+    }
+
+    for (let key in freq) {
+        if (freq[key] === 1) return Number(key); // Return the unique number
+    }
+
+    throw new Error("No unique number found"); // Handle edge case
 }
 
 
-console.log(countNumberAndLetters("string152%\¥")); 
+console.log(singleNumber([4, 2, 1, 2, 1])); 
 
