@@ -2,6 +2,7 @@ import { Field, Int, ObjectType } from "@nestjs/graphql";
 import { ObjectId } from "mongoose";
 import { PropertyLocation, PropertyStatus, PropertyType } from "../../enums/property.enum";
 import { Member, TotalCounter } from "../member/member";
+import { MeLiked } from "../like/like";
 
 
 @ObjectType()  // Backenddan chiqish datalari   |  @InputType => FrontEnddan kirish datasi
@@ -63,13 +64,13 @@ export class Property {
     @Field(() => String)
     memberId: ObjectId;
 
-    @Field(() => Date,  { nullable: true })
+    @Field(() => Date, { nullable: true })
     soldAt?: Date;
 
-    @Field(() => Date,  { nullable: true })
+    @Field(() => Date, { nullable: true })
     deletedAt?: Date;
 
-    @Field(() => Date,  { nullable: true })
+    @Field(() => Date, { nullable: true })
     constructedAt?: Date;
 
     @Field(() => Date)
@@ -79,7 +80,10 @@ export class Property {
     updatedAt?: Date;
 
     /** from aggregation */
-    @Field(() => Member, { nullable: true})
+    @Field(() => [MeLiked], { nullable: true })
+    meLiked?: MeLiked[];
+
+    @Field(() => Member, { nullable: true })
     memberData?: Member;
 }
 
@@ -88,6 +92,6 @@ export class Properties {
     @Field(() => [Property])
     list: Property[];
 
-    @Field(() => [TotalCounter], { nullable: true})
+    @Field(() => [TotalCounter], { nullable: true })
     metaCounter: TotalCounter[];
 }
