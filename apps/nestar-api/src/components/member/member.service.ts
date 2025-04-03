@@ -87,7 +87,7 @@ export class MemberService {
                 $in: [MemberStatus.ACTIVE, MemberStatus.BLOCK],
             },
         };
-        const targetMember = await this.memberModel.findOne(search).lean().exec();
+        const targetMember: Member | null = await this.memberModel.findOne(search).lean().exec();
         if (!targetMember) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
         if (memberId) {
@@ -101,10 +101,8 @@ export class MemberService {
 
             // MeLiked
             const likeInput = { memberId: memberId, likeRefId: targetId, likeGroup: LikeGroup.MEMBER };
-          // @ts-ignore
+          
             targetMember.meLiked = await this.likeService.checkLikeExistence(likeInput);
-
-             // @ts-ignore
             targetMember.meFollowed = await this.checkSubsciption(memberId, targetId);
         }
 
@@ -140,6 +138,7 @@ export class MemberService {
 
         return result[0];
     }
+
 
     public async likeTargetMember(memberId: ObjectId, likeRefId: ObjectId): Promise<Member> {
         const target: Member | null = await this.memberModel.findOne({ _id: likeRefId, memberStatus: MemberStatus.ACTIVE }).exec();
@@ -187,12 +186,14 @@ export class MemberService {
         return result[0];
     }
 
+
     public async updateMemberByAdmin(input: MemberUpdate): Promise<Member> {
         const result: Member | null = await this.memberModel.findOneAndUpdate({ _id: input._id }, input, { new: true }).exec();
         if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
         return result;
     }
 
+    
     public async memberStatsEditor(input: StatisticModifier): Promise<Member | null> {
         const { _id, targetKey, modifier } = input;
         return await this.memberModel

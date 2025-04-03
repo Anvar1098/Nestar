@@ -56,6 +56,8 @@ export class FollowService {
 
 		return result;
 	}
+
+	
 	public async getMemberFollowings(memberId: ObjectId, input: FollowInquiry): Promise<Followings> {
 		const { page, limit, search } = input;
 		if (!search?.followerId) throw new InternalServerErrorException(Message.BAD_REQUEST);
@@ -86,6 +88,8 @@ export class FollowService {
 
 		return result[0];
 	}
+
+
 	public async getMemberFollowers(memberId: ObjectId, input: FollowInquiry): Promise<Followers> {
 		const { page, limit, search } = input;
 		if (!search?.followingId) throw new InternalServerErrorException(Message.BAD_REQUEST);

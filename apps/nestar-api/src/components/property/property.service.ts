@@ -11,7 +11,7 @@ import { ViewGroup } from '../../libs/enums/view.enum';
 import { PropertyStatus } from '../../libs/enums/property.enum';
 import { PropertyUpdate } from '../../libs/dto/property/property.update';
 import * as moment from 'moment';
-import { lookUpMember, shapeIntoMongoObjectId } from '../../libs/config';
+import { lookupAuthMemberLiked, lookUpMember, shapeIntoMongoObjectId } from '../../libs/config';
 import { LikeService } from '../like/like.service';
 import { LikeInput } from '../../libs/dto/like/like.input';
 import { LikeGroup } from '../../libs/enums/like.enum';
@@ -28,8 +28,8 @@ export class PropertyService {
     public async createProperty(input: PropertyInput): Promise<Property> {
         try {
             const result = await this.propertyModel.create(input);
-            // Increase memberProperties
-            await this.memberService.memberStatsEditor({
+            // Increase memberProperties dataset
+            await this.memberService.memberStatsEditor({  // bu mantiq ixtiyoriy datasetni ixtiyoriy datasini modifiy qiladi (comment & view & etc)
                 _id: result.memberId,
                 targetKey: 'memberProperties',
                 modifier: 1,
@@ -42,9 +42,9 @@ export class PropertyService {
     }
 
     public async getProperty(memberId: ObjectId, propertyId: ObjectId): Promise<Property> {
-        const search: T = {
-            _id: propertyId,
-            propertyStatus: PropertyStatus.ACTIVE
+        const search: T = {   // maxsus object
+            _id: propertyId,    // Biz kormoqchi bolgan propertyni Id si
+            propertyStatus: PropertyStatus.ACTIVE  // Biz kormoqchi bolgan propertyni statusi Active bolishi kerak
         };
 
         const targetProperty: Property | null = await this.propertyModel.findOne(search).lean().exec();
@@ -52,9 +52,13 @@ export class PropertyService {
 
         if (memberId) {
             const viewInput = { memberId: memberId, viewRefId: propertyId, viewGroup: ViewGroup.PROPERTY };
-            const newView = await this.viewService.recordView(viewInput);
+            const newView = await this.viewService.recordView(viewInput);   // create View
             if (newView) {
-                await this.propertyStatsEditor({ _id: propertyId, targetKey: 'propertyViews', modifier: 1 });
+                await this.propertyStatsEditor({
+                    _id: propertyId,
+                    targetKey: 'propertyViews',
+                    modifier: 1,
+                });
                 targetProperty.propertyViews++
             }
 
@@ -63,10 +67,9 @@ export class PropertyService {
             // @ts-ignore
             targetProperty.meLiked = await this.likeService.checkLikeExistence(likeInput);
         }
-        targetProperty.memberData = await this.memberService.getMember(null, targetProperty.memberId);  
+        targetProperty.memberData = await this.memberService.getMember(null, targetProperty.memberId);
         return targetProperty;
     }
-
 
     public async updateProperty(memberId: ObjectId, input: PropertyUpdate): Promise<Property> {
         let { propertyStatus, soldAt, deletedAt } = input;
@@ -110,6 +113,7 @@ export class PropertyService {
                             { $skip: (input.page - 1) * input.limit },
                             { $limit: input.limit },
                             //meliked
+                            lookupAuthMemberLiked(memberId),
                             lookUpMember,
                             { $unwind: '$memberData' }, //[memberData] => memberData
                         ],
