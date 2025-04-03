@@ -14,6 +14,7 @@ import { LikeInput } from '../../libs/dto/like/like.input';
 import { LikeGroup } from '../../libs/enums/like.enum';
 import { LikeService } from '../like/like.service';
 import { Follower, Following, MeFollowed } from '../../libs/dto/follow/follow';
+import { lookupAuthMemberLiked } from '../../libs/config';
 
 @Injectable()
 export class MemberService {
@@ -128,7 +129,11 @@ export class MemberService {
                 { $sort: sort },
                 {
                     $facet: {
-                        list: [{ $skip: (input.page - 1) * input.limit }, { $limit: input.limit }],
+                        list: [
+                            { $skip: (input.page - 1) * input.limit }, 
+                            { $limit: input.limit },
+                            lookupAuthMemberLiked(memberId),
+                        ],
                         metaCounter: [{ $count: 'total' }],
                     },
                 },
@@ -138,7 +143,6 @@ export class MemberService {
 
         return result[0];
     }
-
 
     public async likeTargetMember(memberId: ObjectId, likeRefId: ObjectId): Promise<Member> {
         const target: Member | null = await this.memberModel.findOne({ _id: likeRefId, memberStatus: MemberStatus.ACTIVE }).exec();
@@ -157,7 +161,6 @@ export class MemberService {
         if(!result) throw new InternalServerErrorException(Message.SOMETHING_WENT_WRONG);
         return result;
     }
-
 
     public async getAllMembersByAdmin(input: MembersInquiry): Promise<Members> {
         const { memberStatus, memberType, text } = input.search;
@@ -186,13 +189,11 @@ export class MemberService {
         return result[0];
     }
 
-
     public async updateMemberByAdmin(input: MemberUpdate): Promise<Member> {
         const result: Member | null = await this.memberModel.findOneAndUpdate({ _id: input._id }, input, { new: true }).exec();
         if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
         return result;
     }
-
     
     public async memberStatsEditor(input: StatisticModifier): Promise<Member | null> {
         const { _id, targetKey, modifier } = input;
