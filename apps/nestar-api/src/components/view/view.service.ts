@@ -38,7 +38,7 @@ export class ViewService {
                     {
                         $lookup: {
                             from: 'properties',
-                            localField: 'likeRefId',
+                            localField: 'viewRefId',
                             foreignField: '_id',
                             as: 'visitedProperty',
                         },

@@ -163,20 +163,45 @@
 
 //--------------------------------------------------------------------------------------------------------
 
-function singleNumber(nums: number[]): number {
-    let freq: Record<number, number> = {}; // Object to store frequency
+// function singleNumber(nums: number[]): number {
+//     let freq: Record<number, number> = {}; // Object to store frequency
 
-    for (let num of nums) {
-        freq[num] = (freq[num] || 0) + 1; // Count occurrences
+//     for (let num of nums) {
+//         freq[num] = (freq[num] || 0) + 1; // Count occurrences
+//     }
+
+//     for (let key in freq) {
+//         if (freq[key] === 1) return Number(key); // Return the unique number
+//     }
+
+//     throw new Error("No unique number found"); // Handle edge case
+// }
+
+
+// console.log(singleNumber([4, 2, 1, 2, 1])); 
+
+//------------------------------------------------------------------------------------------------------------
+
+function firstUniqueCharIndex(s: string): number {
+    const charCount: Record<string, number> = {};
+
+    // Count occurrences of each character
+    for (const char of s) {
+        charCount[char] = (charCount[char] || 0) + 1;
     }
 
-    for (let key in freq) {
-        if (freq[key] === 1) return Number(key); // Return the unique number
+    // Find the index of the first unique character
+    for (let i = 0; i < s.length; i++) {
+        if (charCount[s[i]] === 1) {
+            return i;
+        }
     }
 
-    throw new Error("No unique number found"); // Handle edge case
+    return -1; // Return -1 if no unique character exists
 }
 
-
-console.log(singleNumber([4, 2, 1, 2, 1])); 
+// Test cases
+console.log(firstUniqueCharIndex("stamp"));  
+console.log(firstUniqueCharIndex("swiss"));  
+console.log(firstUniqueCharIndex("aabbcc")); 
 
