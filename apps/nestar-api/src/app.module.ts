@@ -9,6 +9,7 @@ import { ComponentsModule } from './components/components.module';
 import { DatabaseModule } from './database/database.module';
 import { error } from 'console';
 import { T } from './libs/types/common';
+import { SocketModule } from './socket/socket.module';
 
 @Module({    // Module decorator orqali boyitilmoqda (ozi bilan MetaData lani olib keladi)
   imports: [  // Natijada Module Ingridientga aylandi va markaziy bo'gichga aylandi (Demak Module orqali quriladi)
@@ -29,7 +30,8 @@ import { T } from './libs/types/common';
       }, 
     }), // GraphQL API:
     ComponentsModule,
-    DatabaseModule, 
+    DatabaseModule,
+    SocketModule, 
   ],
   controllers: [AppController],                   // Ingridient  (Reat API ga ishliydi)
   providers: [AppService, AppResolver],           // Ingridient
