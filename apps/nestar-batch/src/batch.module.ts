@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { BatchController } from './batch.controller';
-import { BatchService } from './nestar-batch.service';
+import { BatchService } from './batch.service';
 import { ConfigModule } from "@nestjs/config";
 import { DatabaseModule } from './database/database.module';
 import { ScheduleModule } from '@nestjs/schedule';
