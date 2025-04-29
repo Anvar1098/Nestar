@@ -24,8 +24,8 @@ export class WithoutGuard implements CanActivate {
 
 			console.log('memberNick[without] =>', request.body.authMember?.memberNick ?? 'none');
 			return true;
-		}
-		return false;
+		} else return false;
+
 		// description => http, rpc, gprs and etc are ignored
 	}
 }

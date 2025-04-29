@@ -8,7 +8,7 @@ export class RolesGuard implements CanActivate {
 	constructor(
 		private reflector: Reflector,
 		private authService: AuthService,
-	) { }
+	) {}
 
 	async canActivate(context: ExecutionContext | any): Promise<boolean> {
 		const roles = this.reflector.get<string[]>('roles', context.getHandler());
@@ -31,8 +31,8 @@ export class RolesGuard implements CanActivate {
 			console.log('memberNick[roles] =>', authMember.memberNick);
 			request.body.authMember = authMember;
 			return true;
-		}
-		return false;
+		} else return false;
+
 		// description => http, rpc, gprs and etc are ignored
 	}
 }

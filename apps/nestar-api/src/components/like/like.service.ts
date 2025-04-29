@@ -12,67 +12,69 @@ import { lookupFavorite } from '../../libs/config';
 
 @Injectable()
 export class LikeService {
-    constructor(@InjectModel('Like') private readonly LikeModel: Model<Like>) { }
+	constructor(@InjectModel('Like') private readonly likeModel: Model<Like>) {}
 
-    public async toggleLike(input: LikeInput): Promise<number> {
-        const search: T = { memberId: input.memberId, likeRefId: input.likeRefId },
-            exist = await this.LikeModel.findOne(search).exec();
-        let modifier = 1;
+	public async toggleLike(input: LikeInput): Promise<number> {
+		const search: T = { memberId: input.memberId, likeRefId: input.likeRefId },
+			exist = await this.likeModel.findOne(search).exec();
+		let modifier = 1;
 
-        if (exist) {
-            await this.LikeModel.findOneAndDelete(search).exec();
-            modifier = -1;
-        } else {
-            try {
-                await this.LikeModel.create(input);
-            } catch (err) {
-                console.log('Error, Service.model:', err.message);
-                throw new BadRequestException(Message.CREATE_FAILED);
-            }
-        }
-        console.log(`- Like modifier ${modifier} -`);
-        return modifier;
-    }
+		if (exist) {
+			await this.likeModel.findOneAndDelete(input).exec();
+			modifier = -1;
+		} else {
+			try {
+				await this.likeModel.create(input);
+			} catch (err) {
+				console.log('Error, likeService:', err.message);
+				throw new BadRequestException(Message.CREATE_FAILED);
+			}
+		}
 
-    public async checkLikeExistence(input: LikeInput): Promise<MeLiked[]> {
-        const { memberId, likeRefId } = input;
-        const result = await this.LikeModel.findOne({ memberId: memberId, likeRefId: likeRefId }).exec();
-        return result ? [{ memberId: memberId, likeRefId: likeRefId, myFavorite: true }] : [];
-    }
+		console.log(` - Like modifier '${modifier}' - `);
+		return modifier;
+	}
 
-    public async getFavoriteProperties(memberId: ObjectId, input: OrdinaryInquiry): Promise<Properties> {
-        const { page, limit } = input;
-        const match: T = { likeGroup: LikeGroup.PROPERTY, memberId: memberId };
+	public async checkLikeExistence(input: LikeInput): Promise<MeLiked[]> {
+		const { memberId, likeRefId } = input;
+		const result = await this.likeModel.findOne({ memberId: memberId, likeRefId: likeRefId });
+		return result ? [{ memberId: memberId, likeRefId: likeRefId, myFavorite: true }] : [];
+	}
 
-        const data: T = await this.LikeModel
-            .aggregate([
-                { $match: match },
-                { $sort: { updatedAt: -1 } },
-                {
-                    $lookup: {
-                        from: 'properties',
-                        localField: 'likeRefId',
-                        foreignField: '_id',
-                        as: 'favoriteProperty',
-                    },
-                },
-                { $unwind: '$favoriteProperty' },
-                {
-                    $facet: {
-                        list: [
-                            { $skip: (page - 1) * limit },
-                            { $limit: limit },
-                            lookupFavorite
-                        ],
-                        metaCounter: [{ $count: 'total' }],
-                    },
-                },
-            ])
-            .exec();
+	public async getFavoriteProperties(memberId: ObjectId, input: OrdinaryInquiry): Promise<Properties> {
+		const { page, limit } = input;
+		const match: T = { likeGroup: LikeGroup.PROPERTY, memberId: memberId };
 
-        const result: Properties = { list: [], metaCounter: data[0].metaCounter };
-        result.list = data[0].list.map((ele) => ele.favoriteProperty);
+		const data = await this.likeModel
+			.aggregate([
+				{ $match: match },
+				{ $sort: { updatedAt: -1 } },
+				{
+					$lookup: {
+						from: 'properties',
+						foreignField: '_id',
+						localField: 'likeRefId',
+						as: 'favoriteProperty',
+					},
+				},
+				{ $unwind: '$favoriteProperty' },
+				{
+					$facet: {
+						list: [
+							{ $skip: (page - 1) * limit },
+							{ $limit: limit },
+							lookupFavorite,
+							{ $unwind: '$favoriteProperty.memberData' },
+						],
+						metaCounter: [{ $count: 'total' }],
+					},
+				},
+			])
+			.exec();
+		const result: Properties = { list: [], metaCounter: data[0].metaCounter };
+		result.list = data[0].list.map((ele) => ele.favoriteProperty);
+		console.log('result', result);
 
-        return result;
-    }
+		return result;
+	}
 }
