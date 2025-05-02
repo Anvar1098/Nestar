@@ -25,7 +25,7 @@ export class MemberService {
 		private authService: AuthService,
 		private viewService: ViewService,
 		private likeService: LikeService,
-	) {}
+	) { }
 
 	public async signup(input: MemberInput): Promise<Member> {
 		input.memberPassword = await this.authService.hashPassword(input.memberPassword);
@@ -60,7 +60,13 @@ export class MemberService {
 
 	public async updateMember(memberId: ObjectId, input: MemberUpdate): Promise<Member> {
 		const result: Member | null = await this.memberModel
-			.findOneAndUpdate({ _id: memberId, memberStatus: MemberStatus.ACTIVE }, input, { new: true })
+			.findOneAndUpdate({
+				_id: memberId,
+				memberStatus: MemberStatus.ACTIVE
+			},
+				input,
+				{ new: true }
+			)
 			.exec();
 		if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
 
