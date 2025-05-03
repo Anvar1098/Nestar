@@ -48,3 +48,12 @@ export class AppModule {}
 // Rest Api & GraphQL API => HTTP ustiga qurilgan
 // GraphQL API => bir request orqali hamma kerakli infoni yigib kelish mumkin backenddan!
 // formatError => vazifasi Errorlarni togri formatlash!
+
+/** 
+MESSAGE TARGET :
+
+  1) Client => only client
+  2) Broadcast => except client
+  3) Emit => all clients
+
+ **/
