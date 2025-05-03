@@ -36,6 +36,9 @@ bootstrap();
 // Demak GraphQL da automatic error handling borligi sababli try catch bolmaydi!  (App.module ichida formatError bor)!
 // MVC ni (API) ishga tushirishdan oldin  modullarga wrap qildik, shuni uchun modular tizim tez ishlayid => AOP muhim konsepsiyasi!
 
+// WebSocket bu Rest yoki GraphQL API ga oxshab HTTP protokol ustiga emas balki TCP ustiga quriladi
+// Lekin 1 chi HTTP orqali ulanganda serverga leyin TCP ga kuchadi! Shu sababli doimiy aloqa urnatiladi!
+
 
 
 
