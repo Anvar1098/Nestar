@@ -16,7 +16,7 @@ export class FollowResolver {
 	@UseGuards(AuthGuard)
 	@Mutation(() => Follower)
 	public async subscribe(
-		@Args('input') input: string, //
+		@Args('input') input: string, 
 		@AuthMember('_id') memberId: ObjectId,
 	): Promise<Follower> {
 		console.log('Mutation: subscribe');

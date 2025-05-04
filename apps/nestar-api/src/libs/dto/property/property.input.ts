@@ -100,7 +100,7 @@ export class PeriodsRange {
 
 
 @InputType()
-class PISearch {
+class PISearch {     // Property Input Search
    @IsOptional()
    @Field(() => String, { nullable: true })
    memberId?: ObjectId;
@@ -214,7 +214,7 @@ class ALPISearch {
    propertyLocationList?: PropertyLocation[];
 }
 
-@InputType()
+
 @InputType()
 export class AllPropertiesInquiry {
    @IsNotEmpty()
