@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import { Comment, Comments } from '../../libs/dto/comment/comment';
 import { MemberService } from '../member/member.service';
-import { ViewService } from '../view/view.service';
 import { PropertyService } from '../property/property.service';
 import { BoardArticleService } from '../board-article/board-article.service';
 import { CommentInput, CommentsInquiry } from '../../libs/dto/comment/comment.input';

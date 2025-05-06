@@ -1,4 +1,3 @@
-import { ViewInput } from './../../libs/dto/view/view.input';
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { BoardArticle, BoardArticles } from '../../libs/dto/board-article/board-article';
@@ -14,7 +13,6 @@ import { Direction, Message } from '../../libs/enums/common.enum';
 import { StatisticModifier, T } from '../../libs/types/common';
 import { BoardArticleStatus } from '../../libs/enums/board-article.enum';
 import { ViewGroup } from '../../libs/enums/view.enum';
-import { Member } from '../../libs/dto/member/member';
 import { BoardArticleUpdate } from '../../libs/dto/board-article/board-article.update';
 import { lookupAuthMemberLiked, lookUpMember, shapeIntoMongoObjectId } from '../../libs/config';
 import { LikeInput } from '../../libs/dto/like/like.input';
