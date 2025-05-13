@@ -30,7 +30,7 @@ export class PropertyService {
 		private viewService: ViewService,
 		private memberService: MemberService,
 		private likeService: LikeService,
-	) {}
+	) { }
 
 	public async createProperty(input: PropertyInput): Promise<Property> {
 		try {
@@ -284,6 +284,13 @@ export class PropertyService {
 	}
 
 	public async propertyStatsEditor({ _id, targetKey, modifier }: StatisticModifier): Promise<Property | null> {
-		return await this.propertyModel.findByIdAndUpdate(_id, { $inc: { [targetKey]: modifier } }, { new: true });
+		return await this.propertyModel
+			.findByIdAndUpdate(
+				_id,
+				{
+					$inc:
+						{ [targetKey]: modifier }
+				},
+				{ new: true });
 	}
 }
